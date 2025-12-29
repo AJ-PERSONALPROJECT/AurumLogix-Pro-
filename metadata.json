@@ -1,0 +1,7 @@
+{
+  "name": "AurumLogix Pro",
+  "description": "Professional jewelry shop management with AI intelligence, cloud sync, and inventory tracking.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
