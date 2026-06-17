@@ -1,5 +1,7 @@
 # 🌟 AurumLogix Pro
 
+ AurumLogix Pro, an AI-powered jewelry retail management app with inventory, pricing, sales, and CRM features.
+
 [![Vite Build](https://img.shields.io/badge/Build-Vite%20%2F%20React%2019-yellow.svg)](https://vite.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
 [![Lucide Icons](https://img.shields.io/badge/Icons-Lucide--React-orange.svg)](https://lucide.dev/)
