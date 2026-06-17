@@ -1,6 +1,7 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../App';
+import { useLocation } from 'react-router-dom';
 import { 
   Plus, 
   Search, 
@@ -17,9 +18,21 @@ import {
 
 const SalesView: React.FC = () => {
   const { sales, inventory, addSale, rates, user } = useApp();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
+  const stateFromLocation = location.state as any;
+
+  const [isModalOpen, setIsModalOpen] = useState(() => {
+    return !!(stateFromLocation && stateFromLocation.openNewSaleModal);
+  });
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedReceipt, setSelectedReceipt] = useState<any>(null);
+
+  useEffect(() => {
+    if (location.state && (location.state as any).openNewSaleModal) {
+      setIsModalOpen(true);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const filteredSales = useMemo(() => {
     return sales.filter(s => 
@@ -105,6 +118,7 @@ const SalesView: React.FC = () => {
           onSubmit={s => { addSale(s); setIsModalOpen(false); }}
           inventory={inventory}
           rates={rates}
+          prefillCustomer={stateFromLocation?.prefillCustomer}
         />
       )}
 
@@ -197,11 +211,12 @@ const SaleModal: React.FC<{
   onSubmit: (data: any) => void;
   inventory: any[];
   rates: any;
-}> = ({ onClose, onSubmit, inventory, rates }) => {
+  prefillCustomer?: { name: string; phone: string };
+}> = ({ onClose, onSubmit, inventory, rates, prefillCustomer }) => {
   const [formData, setFormData] = useState({
     itemId: '',
-    customerName: '',
-    customerPhone: '',
+    customerName: prefillCustomer?.name || '',
+    customerPhone: prefillCustomer?.phone || '',
     itemName: '',
     category: '',
     metalType: 'GOLD',

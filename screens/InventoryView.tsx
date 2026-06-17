@@ -1,6 +1,7 @@
 
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useApp } from '../App';
+import { useLocation } from 'react-router-dom';
 import { 
   Plus, Search, Edit2, Trash2, X, AlertCircle, Package, 
   ChevronRight, Gem, Camera, Image as ImageIcon 
@@ -10,10 +11,24 @@ import { InventoryItem } from '../types';
 
 const InventoryView: React.FC = () => {
   const { user, inventory, addItem, updateItem, deleteItem, rates } = useApp();
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [metalFilter, setMetalFilter] = useState<'All' | 'GOLD' | 'SILVER'>('All');
+  const [stockFilter, setStockFilter] = useState<'All' | 'IN_STOCK' | 'LOW_STOCK'>('All');
+  const [sortBy, setSortBy] = useState<string>('NONE');
+  
+  const [isModalOpen, setIsModalOpen] = useState(() => {
+    return !!(location.state && (location.state as any).openAddModal);
+  });
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
+
+  useEffect(() => {
+    if (location.state && (location.state as any).openAddModal) {
+      setIsModalOpen(true);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const isOwner = user?.role === 'OWNER';
 
@@ -22,13 +37,41 @@ const InventoryView: React.FC = () => {
   }, [inventory]);
 
   const filteredItems = useMemo(() => {
-    return inventory.filter(item => {
+    let result = inventory.filter(item => {
       const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            item.category.toLowerCase().includes(searchTerm.toLowerCase());
+                            item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            (item.description && item.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesCategory = categoryFilter === 'All' || item.category === categoryFilter;
-      return matchesSearch && matchesCategory;
+      const matchesMetal = metalFilter === 'All' || item.metalType === metalFilter;
+      
+      let matchesStock = true;
+      if (stockFilter === 'LOW_STOCK') {
+        matchesStock = (item.stockLevel ?? 0) < 5;
+      } else if (stockFilter === 'IN_STOCK') {
+        matchesStock = (item.stockLevel ?? 0) >= 5;
+      }
+      
+      return matchesSearch && matchesCategory && matchesMetal && matchesStock;
     });
-  }, [inventory, searchTerm, categoryFilter]);
+
+    if (sortBy === 'PRICE_ASC') {
+      result = [...result].sort((a, b) => a.finalPrice - b.finalPrice);
+    } else if (sortBy === 'PRICE_DESC') {
+      result = [...result].sort((a, b) => b.finalPrice - a.finalPrice);
+    } else if (sortBy === 'NAME_ASC') {
+      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'WEIGHT_ASC') {
+      result = [...result].sort((a, b) => a.weight - b.weight);
+    } else if (sortBy === 'WEIGHT_DESC') {
+      result = [...result].sort((a, b) => b.weight - a.weight);
+    } else if (sortBy === 'STOCK_ASC') {
+      result = [...result].sort((a, b) => (a.stockLevel ?? 0) - (b.stockLevel ?? 0));
+    } else if (sortBy === 'STOCK_DESC') {
+      result = [...result].sort((a, b) => (b.stockLevel ?? 0) - (a.stockLevel ?? 0));
+    }
+
+    return result;
+  }, [inventory, searchTerm, categoryFilter, metalFilter, stockFilter, sortBy]);
 
   const groupedInventory = useMemo(() => {
     return filteredItems.reduce((acc, item) => {
@@ -66,13 +109,13 @@ const InventoryView: React.FC = () => {
         <div className="flex flex-wrap items-center gap-4 w-full lg:w-auto">
           <div className="flex items-center gap-2 bg-white dark:bg-slate-800 p-1 rounded-2xl border-2 border-slate-100 dark:border-slate-700">
              {['All', ...categories.slice(0, 3)].map(cat => (
-               <button 
-                 key={cat}
-                 onClick={() => setCategoryFilter(cat)}
-                 className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${categoryFilter === cat ? 'bg-slate-900 text-white shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
-               >
-                 {cat}
-               </button>
+                <button 
+                  key={cat}
+                  onClick={() => setCategoryFilter(cat)}
+                  className={`px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${categoryFilter === cat ? 'bg-slate-900 text-white shadow-xl' : 'text-slate-400 hover:text-slate-600'}`}
+                >
+                  {cat}
+                </button>
              ))}
           </div>
           {isOwner && (
@@ -83,6 +126,60 @@ const InventoryView: React.FC = () => {
               <Plus size={22} /> Add Piece
             </button>
           )}
+        </div>
+      </div>
+
+      {/* Filtering and Sorting Section */}
+      <div className="flex flex-wrap items-center gap-6 bg-white dark:bg-slate-800 p-6 md:px-8 rounded-[32px] border-2 border-slate-100 dark:border-slate-700 shadow-sm text-sm">
+        <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Metal Type</span>
+            <select 
+              value={metalFilter} 
+              onChange={e => setMetalFilter(e.target.value as any)}
+              className="bg-slate-50 dark:bg-slate-900 border border-slate-150 dark:border-slate-700 rounded-xl px-4 py-2.5 font-bold text-xs text-slate-705 dark:text-white outline-none focus:border-yellow-500"
+            >
+              <option value="All">All Metals</option>
+              <option value="GOLD">Gold</option>
+              <option value="SILVER">Silver</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Stock Level</span>
+            <select 
+              value={stockFilter} 
+              onChange={e => setStockFilter(e.target.value as any)}
+              className="bg-slate-50 dark:bg-slate-900 border border-slate-150 dark:border-slate-700 rounded-xl px-4 py-2.5 font-bold text-xs text-slate-705 dark:text-white outline-none focus:border-yellow-500"
+            >
+              <option value="All">All In Stock</option>
+              <option value="IN_STOCK">Good Stock (≥ 5)</option>
+              <option value="LOW_STOCK">Low Stock (&lt; 5)</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sort Vault By</span>
+            <select 
+              value={sortBy} 
+              onChange={e => setSortBy(e.target.value)}
+              className="bg-slate-50 dark:bg-slate-900 border border-slate-150 dark:border-slate-700 rounded-xl px-4 py-2.5 font-bold text-xs text-slate-750 dark:text-white outline-none focus:border-yellow-500"
+            >
+              <option value="NONE">Default Listing</option>
+              <option value="PRICE_ASC">Price: Low to High</option>
+              <option value="PRICE_DESC">Price: High to Low</option>
+              <option value="NAME_ASC">Name: A to Z</option>
+              <option value="WEIGHT_ASC">Weight: Lighter first</option>
+              <option value="WEIGHT_DESC">Weight: Heavier first</option>
+              <option value="STOCK_ASC">Stock Level: Lowest first</option>
+              <option value="STOCK_DESC">Stock Level: Highest first</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="ml-auto text-right self-end">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Matched Items</span>
+          <span className="font-black text-lg text-yellow-600 dark:text-yellow-500">{filteredItems.length} Pieces</span>
         </div>
       </div>
 
@@ -304,9 +401,18 @@ const InventoryModal: React.FC<{
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 block mb-1">Estimated Retail Value</span>
               <span className="text-5xl font-black text-slate-900 dark:text-white tracking-tighter">₹{finalPrice.toLocaleString()}</span>
             </div>
-            <button type="submit" className="w-full md:w-auto bg-slate-900 dark:bg-yellow-500 text-white dark:text-slate-900 font-black px-16 py-6 rounded-[32px] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-yellow-500/20 uppercase tracking-widest text-sm">
-              Finalize Record
-            </button>
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+              <button 
+                type="button" 
+                onClick={onClose} 
+                className="w-full sm:w-auto bg-slate-100 dark:bg-slate-900 text-slate-500 dark:text-slate-350 hover:bg-slate-200 dark:hover:bg-slate-750 font-black px-12 py-6 rounded-[32px] transition-all uppercase tracking-widest text-sm"
+              >
+                Cancel
+              </button>
+              <button type="submit" className="w-full sm:w-auto bg-slate-900 dark:bg-yellow-500 text-white dark:text-slate-900 font-black px-16 py-6 rounded-[32px] hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-yellow-500/20 uppercase tracking-widest text-sm">
+                Finalize Record
+              </button>
+            </div>
           </div>
         </form>
       </div>

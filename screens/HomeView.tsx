@@ -67,11 +67,11 @@ const HomeView: React.FC = () => {
           
           <div className="flex flex-wrap gap-4">
             {isOwner && (
-              <Link to="/inventory" className="bg-white/20 backdrop-blur-md hover:bg-white/30 px-6 py-3 rounded-2xl flex items-center gap-2 transition-all font-bold">
+              <Link to="/inventory" state={{ openAddModal: true }} className="bg-white/20 backdrop-blur-md hover:bg-white/30 px-6 py-3 rounded-2xl flex items-center gap-2 transition-all font-bold">
                 <Plus size={20} /> Add Item
               </Link>
             )}
-            <Link to="/sales" className="bg-white text-yellow-600 font-black px-8 py-3 rounded-2xl flex items-center gap-2 shadow-lg transition-all hover:scale-105 active:scale-95">
+            <Link to="/sales" state={{ openNewSaleModal: true }} className="bg-white text-yellow-600 font-black px-8 py-3 rounded-2xl flex items-center gap-2 shadow-lg transition-all hover:scale-105 active:scale-95">
               <ShoppingCart size={20} /> New Transaction
             </Link>
           </div>

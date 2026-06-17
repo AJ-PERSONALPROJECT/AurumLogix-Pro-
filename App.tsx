@@ -35,6 +35,7 @@ interface AppContextType {
   addItem: (item: any) => void;
   updateItem: (id: string, item: Partial<InventoryItem>) => void;
   deleteItem: (id: string) => void;
+  addCustomer: (customer: any) => void;
   addSale: (sale: any) => void;
   updateRates: (rates: Partial<MetalRates>) => void;
   toggleLock: (pin?: string) => void;
@@ -42,6 +43,7 @@ interface AppContextType {
   incrementAIUsage: () => boolean;
   // Added setThemeMode to fix the error in SettingsView
   setThemeMode: (mode: ThemeMode) => void;
+  updateSettings: (settings: Partial<ShopData['settings']>) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -79,6 +81,36 @@ const App: React.FC = () => {
     }));
     setTimeout(() => setState(prev => ({ ...prev, isSyncing: false })), 600);
   };
+
+  const activeRates = useMemo(() => {
+    if (!currentShopData) return INITIAL_RATES;
+    if (currentShopData.settings.useLiveRates) {
+      return currentShopData.rates || INITIAL_RATES;
+    } else {
+      return {
+        gold: currentShopData.settings.manualGoldRate || INITIAL_RATES.gold,
+        silver: currentShopData.settings.manualSilverRate || INITIAL_RATES.silver,
+        trend: 'STABLE',
+        lastUpdated: Date.now()
+      };
+    }
+  }, [currentShopData]);
+
+  useEffect(() => {
+    if (state.currentUser && currentShopData?.settings.useLiveRates) {
+      const lastUpdate = currentShopData.rates?.lastUpdated || 0;
+      if (Date.now() - lastUpdate > 120000) {
+        fetchLiveRates().then(fetched => {
+          if (fetched) {
+            updateShopData(prev => ({
+              ...prev,
+              rates: fetched
+            }));
+          }
+        });
+      }
+    }
+  }, [state.currentUser?.id, currentShopData?.settings.useLiveRates, currentShopData?.rates?.lastUpdated]);
 
   const login = (employeeId: string, password: string) => {
     const user = state.userRegistry.find(u => u.employeeId === employeeId && u.password === password);
@@ -140,7 +172,7 @@ const App: React.FC = () => {
     inventory: currentShopData?.inventory || [],
     sales: currentShopData?.sales || [],
     customers: currentShopData?.customers || [],
-    rates: currentShopData?.rates || INITIAL_RATES,
+    rates: activeRates,
     settings: currentShopData?.settings || { themeMode: 'SYSTEM', useLiveRates: true, currency: 'INR', weightUnit: 'grams', manualGoldRate: INITIAL_RATES.gold, manualSilverRate: INITIAL_RATES.silver, assistantName: 'AurumLogix', isLocked: false },
     isSyncing: state.isSyncing,
     isLocked,
@@ -150,7 +182,64 @@ const App: React.FC = () => {
     addItem: (item) => updateShopData(prev => ({ ...prev, inventory: [{...item, id: 'ITM-'+Date.now(), addedAt: Date.now()}, ...prev.inventory] })),
     updateItem: (id, ups) => updateShopData(prev => ({ ...prev, inventory: prev.inventory.map(i => i.id === id ? {...i, ...ups} : i) })),
     deleteItem: (id) => updateShopData(prev => ({ ...prev, inventory: prev.inventory.filter(i => i.id !== id) })),
-    addSale: (sale) => updateShopData(prev => ({ ...prev, sales: [{...sale, id: 'SLE-'+Date.now(), soldAt: Date.now()}, ...prev.sales] })),
+    addCustomer: (customer) => updateShopData(prev => {
+      const phone = customer.phone || '';
+      const exists = prev.customers.find(c => phone && c.phone === phone);
+      if (exists) {
+        return {
+          ...prev,
+          customers: prev.customers.map(c => phone && c.phone === phone ? { ...c, ...customer } : c)
+        };
+      }
+      return {
+        ...prev,
+        customers: [{
+          ...customer,
+          id: 'CST-' + Date.now(),
+          totalSpent: customer.totalSpent || 0,
+          lastPurchaseAt: customer.lastPurchaseAt || Date.now(),
+          isLoyal: customer.isLoyal || (customer.totalSpent || 0) >= 50000,
+          notes: customer.notes || ''
+        }, ...prev.customers]
+      };
+    }),
+    addSale: (sale) => updateShopData(prev => {
+      const phone = sale.customerPhone || '';
+      let isBrandNew = true;
+      const updatedCustomers = prev.customers.map(c => {
+        if (phone && c.phone === phone) {
+          isBrandNew = false;
+          const newTotal = c.totalSpent + sale.finalPrice;
+          return {
+            ...c,
+            name: sale.customerName,
+            totalSpent: newTotal,
+            lastPurchaseAt: Date.now(),
+            isLoyal: newTotal >= 50000
+          };
+        }
+        return c;
+      });
+
+      if (isBrandNew) {
+        updatedCustomers.unshift({
+          id: 'CST-' + Date.now(),
+          name: sale.customerName,
+          phone: sale.customerPhone || '',
+          email: '',
+          totalSpent: sale.finalPrice,
+          lastPurchaseAt: Date.now(),
+          isLoyal: sale.finalPrice >= 50000,
+          notes: 'Customer created automatically via Sale.'
+        });
+      }
+
+      return {
+        ...prev,
+        sales: [{...sale, id: 'SLE-'+Date.now(), soldAt: Date.now()}, ...prev.sales],
+        customers: updatedCustomers
+      };
+    }),
     updateRates: (r) => updateShopData(prev => ({ ...prev, rates: {...prev.rates, ...r, lastUpdated: Date.now()} })),
     toggleLock: (pin) => {
       if (!isLocked) setIsLocked(true);
@@ -159,7 +248,8 @@ const App: React.FC = () => {
     setPlan,
     incrementAIUsage,
     // Implementation for setThemeMode using updateShopData
-    setThemeMode: (mode: ThemeMode) => updateShopData(prev => ({ ...prev, settings: { ...prev.settings, themeMode: mode } }))
+    setThemeMode: (mode: ThemeMode) => updateShopData(prev => ({ ...prev, settings: { ...prev.settings, themeMode: mode } })),
+    updateSettings: (newSettings) => updateShopData(prev => ({ ...prev, settings: { ...prev.settings, ...newSettings } }))
   };
 
   const isDarkMode = currentShopData?.settings.themeMode === 'DARK' || (currentShopData?.settings.themeMode === 'SYSTEM' && window.matchMedia('(prefers-color-scheme: dark)').matches);
