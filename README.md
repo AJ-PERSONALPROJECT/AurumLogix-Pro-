@@ -3,54 +3,59 @@
 [![Vite Build](https://img.shields.io/badge/Build-Vite%20%2F%20React%2019-yellow.svg)](https://vite.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
 [![Lucide Icons](https://img.shields.io/badge/Icons-Lucide--React-orange.svg)](https://lucide.dev/)
-[![AI Powered](https://img.shields.io/badge/AI-Gemini%20Flash-magenta.svg)](#assistant-and-ai-intelligence)
+[![AI Powered](https://img.shields.io/badge/AI-Gemini%20Flash-magenta.svg)](#-assistant-and-ai-intelligence)
 
-AurumLogix Pro is a professional-grade, high-performance web suite designed for modern luxury retail jewelry stores. [Why this title & description was chosen: The name **AurumLogix** purposefully merges *Aurum* (the noble Latin name for gold, symbol Au) with *Logix* (logic-driven material logistics). This conveys our precise financial formula engine and smart catalog bookkeeping. The *Pro* suffix signals its built-to-scale enterprise capabilities tailored for high-end retail showrooms, replacing disorganized spreadsheet systems with high-fidelity, real-time inventory assets.]
+**AurumLogix Pro** is a professional-grade jewelry store management system designed for modern luxury retail. Combining intelligent material valuation, extensive inventory management, advanced sales tracking, customer relationship management (CRM), and AI-powered analytics, it streamlines gold and silver retail administration with real-time insights and precision pricing.
 
-Combining intelligent material valuation trackers, extensive inventory management, a visual interactive sales desk, secure customer relationship metrics (CRM), and a dynamic jewelry pricing engine, the platform streamlines gold and silver store administration.
-
-Developed with React 19, TypeScript, and Vite, it delivers instant response times, fluid layout transitions, and multi-device capabilities wrapped in an eye-friendly, elegant user interface.
+Built with React 19, TypeScript, Vite, and powered by Google's Gemini AI, it delivers instant response times, responsive layouts, and multi-device capabilities wrapped in an elegant, user-friendly interface.
 
 ---
 
-## ✨ Key Features & Benefits
+## ✨ Key Features
 
-### 💎 Advanced Jewelry Pricing Lab
-- **Multi-Metal Valuator**: Configure raw Gold (adjusted by custom purity levels: 24K, 22K, 18K, 14K) and Silver standards (999 Pure, 925 Sterling, 900 Coin).
-- **Flexible Workmanship Billing**: Toggle workmanship/making rates seamlessly between percentage, per-gram, and flat pricing structures.
-- **Detailed Settlement Itemization**: View precise breakdowns including material content costs, wastage allowances, workmanship charges, and tax additions (GST/VAT).
-- **Standard Physical Calculator**: Quick access to a fully responsive, log-retaining financial accounting keys panel.
+### 💎 Advanced Jewelry Pricing Calculator
+- **Multi-Metal Valuation**: Configure Gold (24K, 22K, 18K, 14K) and Silver (999 Pure, 925 Sterling) standards with custom rates
+- **Flexible Pricing Models**: Support percentage, per-gram, and flat fee workmanship/making charges
+- **Detailed Breakdowns**: View itemized costs including material, wastage, workmanship, and taxes (GST/VAT)
+- **Built-in Calculator**: Quick access to a fully functional calculator for on-the-fly computations
 
-### 📱 Wireless/Wired Cross-Device Terminal Bridge (New!)
-- **Dynamic Camera Snapshot Sync**: Scan on-screen QR codes containing dynamic parameters to link any mobile device via WiFi. Instantly snap photos on your smartphone and upload them straight into your PC register's visual asset library.
-- **Keyboard Barcode Laser Emulation**: Hook up handheld CCD scanner guns via USB/serial wire interfaces. Supports automatic ASCII return parsing to instant-verify stock identities locally.
-- **Real-Time Pairing Logs**: Debug using the integrated Terminal Interceptor console to inspect and verify inbound chunk packet structures before finalizing catalog uploads.
-
-### 📦 Premium Inventory Management
-- **Intelligent Stock Ledger**: Search, filter, and classify gold, silver, diamonds, and precious gemstones in individual categories.
-- **Dynamic Sort Controls**: Order your inventory by price ranges, material weights, catalog names, or stock quantities.
-- **Automated Reorder Warnings**: Visually inspect pieces showing low-stock statuses (less than 5 units left) to trigger instant refills.
+### 📦 Inventory Management
+- **Smart Stock Ledger**: Search, filter, and classify inventory items with advanced sorting options
+- **Low Stock Alerts**: Automatic notifications when items fall below 5 units in stock
+- **Real-time Tracking**: Monitor stock levels, material weights, and pricing across your catalog
 
 ### 👤 Customer Relationship Manager (CRM)
-- **VIP Customer Highlighting**: Flag loyal high-volume clients who meet or exceed cumulative VIP investment benchmarks (e.g., ₹50,000+).
-- **Lifetime Value Tracking**: View overall receipts, maximum purchases, and visit history drawers in a beautiful slidable layout.
-- **Interlinked Transaction Drafts**: Directly draft new transaction receipts pre-filled with specific customer profile coordinates straight from the CRM screen.
+- **VIP Customer Identification**: Flag loyal, high-value customers for personalized service
+- **Purchase History**: Track lifetime customer value, transaction history, and purchase patterns
+- **Quick Transaction Drafts**: Create invoices pre-populated with customer information
 
-### 📈 Instant Valuation Override (Settings)
-- **Emergency Rates Override**: Switch of live precious metal price feeds in favor of manual tariffs if internet access fails, API limits are reached, or customized store margin overrides are required.
-- **Interactive Global Personalizations**: Choose dark, light, or system themes; lock down terminals when stepping away; and view employee access levels.
+### 📊 Sales & Analytics Dashboard
+- **Revenue Tracking**: View daily, weekly, and monthly sales metrics
+- **Business KPIs**: Monitor inventory turnover, average transaction value, and trend analysis
+- **Visual Charts**: Interactive revenue and trends visualization powered by Recharts
+
+### 🤖 AI-Powered Assistant
+- **Gemini Integration**: Real-time AI assistance for business insights and recommendations
+- **Live Market Rates**: Automatic updates on gold and silver prices using AI predictions
+- **Smart Advice**: Get AI-generated business tips and sales recommendations
+
+### ⚙️ Advanced Settings
+- **Manual Rate Override**: Set custom rates when internet is unavailable or for store-specific margins
+- **Multi-User Support**: Role-based access for owners and employees with secure login
+- **Theme Customization**: Choose between light, dark, or system themes for comfortable viewing
+- **Terminal Lock**: Security features to lock down registers when stepping away
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 🛠️ Tech Stack
 
-The application employs a highly responsive component model, capitalizing on modern client-side storage states and type-safe architectures:
-
-- **Framework**: [React 19](https://react.dev/) + [Vite](https://vite.dev) (for compiled speed and lightning-fast HMR simulation).
-- **Style Engine**: [Tailwind CSS](https://tailwindcss.com/) (modern typography, fluid layouts, cohesive shadows, and dark mode integration).
-- **Typings**: Native TypeScript (strict type tracking for inventory weights, purities, transactions, rates, and users).
-- **Icons**: [Lucide React](https://lucide.dev) (flexible SVG representation).
-- **Visuals**: [Recharts](https://recharts.org/) (for interactive gold/silver trends and invoice trackers).
+- **Frontend Framework**: [React 19](https://react.dev/) with [Vite](https://vite.dev/) for ultra-fast development and optimized production builds
+- **Language**: [TypeScript 5.8](https://www.typescriptlang.org/) for type-safe code and better developer experience
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) for responsive, utility-first design with dark mode support
+- **UI Icons**: [Lucide React](https://lucide.dev/) for flexible, customizable SVG icons
+- **Charts & Visualization**: [Recharts](https://recharts.org/) for interactive data visualization
+- **Routing**: [React Router v7](https://reactrouter.com/) for client-side navigation
+- **AI Integration**: [Google Generative AI (Gemini)](https://ai.google.dev/) for intelligent insights and market rate predictions
 
 ---
 
@@ -58,91 +63,209 @@ The application employs a highly responsive component model, capitalizing on mod
 
 ### Prerequisites
 
-Verify that you have [Node.js](https://nodejs.org/) installed on your workstation.
+Ensure you have the following installed:
 
-- **Node.js**: `v18.x` or higher
-- **npm**: `v9.x` or higher
+- **[Node.js](https://nodejs.org/)**: v18.x or higher
+- **npm**: v9.x or higher (comes with Node.js)
+- **[Google Gemini API Key](https://aistudio.google.com/app/apikey)**: Required for AI features
 
-### Installation & Standalone Running
-
-Follow these direct steps to compile and execute the system in a local server shell:
+### Installation & Setup
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd aurumlogix-pro
+   git clone https://github.com/YOUR_REPO_URL/JewelTrack.git
+   cd JewelTrack
    ```
 
-2. **Install all bundle dependencies**:
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. **Launch the development environment server**:
+3. **Set up environment variables**:
+   Create a `.env` file in the project root (or use `.env.local`):
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+   
+   Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+
+4. **Start the development server**:
    ```bash
    npm run dev
    ```
-   *The server dynamically provisions on [http://localhost:3000](http://localhost:3000) or the configured port.*
+   The app will be available at [http://localhost:3000](http://localhost:3000)
 
-4. **Verify / Compile for production release**:
+5. **Build for production**:
    ```bash
    npm run build
    ```
-   *Compiles compressed optimal production-ready assets inside the `/dist` directory.*
+   This creates an optimized production build in the `/dist` directory.
+
+6. **Preview production build** (optional):
+   ```bash
+   npm run preview
+   ```
+
+### Quick Start Example
+
+1. Open http://localhost:3000 in your browser
+2. Register as an owner with your shop details
+3. Navigate to **Calculator** to set up your gold/silver rates
+4. Add inventory items in **Inventory** section
+5. Create sales transactions in **Sales** section
+6. View business insights in the **Dashboard**
+7. Chat with the **AI Assistant** for business recommendations
 
 ---
 
 ## 📂 Project Structure
 
-```text
+```
+JewelTrack/
 ├── src/
-│   ├── components/            # Extracted UI containers, modals, and sidebar layouts
-│   ├── screens/               # Individual functional vistas
-│   │   ├── AssistantView.tsx  # Gemini-powered management chat console
-│   │   ├── AuthView.tsx       # Multi-employee role-based secure login
-│   │   ├── CalculatorView.tsx # Weight, wastage, making, and taxes pricing sandbox
-│   │   ├── CRMView.tsx        # Customer directories, loyalty, and pre-filled invoice flows
-│   │   ├── DashboardView.tsx  # Interactive revenue charts & business KPIs
-│   │   ├── HomeView.tsx       # Landing desk with transaction and collection shortcuts
-│   │   ├── InventoryView.tsx  # Stock logs with advanced sorting and filter bars
-│   │   ├── SalesView.tsx      # Invoices, transactions history, and recipe drafts
-│   │   └── SettingsView.tsx   # emergency overrides, personalizations, and theme shifts
+│   ├── screens/                  # Main application views
+│   │   ├── HomeView.tsx         # Dashboard landing with shortcuts
+│   │   ├── CalculatorView.tsx   # Jewelry pricing calculator
+│   │   ├── InventoryView.tsx    # Stock management and tracking
+│   │   ├── SalesView.tsx        # Invoice and transaction management
+│   │   ├── CRMView.tsx          # Customer relationship management
+│   │   ├── DashboardView.tsx    # Analytics and KPI insights
+│   │   ├── AssistantView.tsx    # AI-powered business assistant
+│   │   ├── AuthView.tsx         # Multi-user login system
+│   │   └── SettingsView.tsx     # Configuration and preferences
 │   │
-│   ├── services/              # External integrations
-│   │   └── geminiService.ts   # Model orchestration to provide intelligent insights
+│   ├── services/                 # External service integrations
+│   │   └── geminiService.ts     # Google Gemini AI integration
 │   │
-│   ├── App.tsx                # Context providers, routing hubs, state synchronization
-│   ├── constants.tsx          # Default purities, users registry, item lists
-│   ├── index.css              # Font definitions (Inter, JetBrains Mono) & Tailwind
-│   ├── main.tsx               # Bootstrap entry point
-│   └── types.ts               # Strict TS contracts
-├── package.json               # Main bundle declaration
-└── metadata.json              # App permission permissions
+│   ├── App.tsx                  # Context provider and main routing
+│   ├── types.ts                 # TypeScript type definitions
+│   ├── constants.tsx            # Default values and static data
+│   ├── index.tsx                # Application entry point
+│   └── index.css                # Global styles with Tailwind
+│
+├── index.html                   # HTML template
+├── vite.config.ts               # Vite build configuration
+├── tsconfig.json                # TypeScript configuration
+├── package.json                 # Project dependencies
+├── metadata.json                # App metadata and permissions
+└── README.md                    # This file
 ```
 
----
+### Key Screens
 
-## 🧑‍💻 Contributing
-
-1. **Fork** the repository and create your feature branch:
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-2. **Commit** your modifications with informative, clear descriptions:
-   ```bash
-   git commit -m 'feat: Add elegant digital invoice sharing'
-   ```
-3. **Push to the branch**:
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-4. Submitting a **Pull Request** for approval.
+- **Home**: Quick dashboard with daily metrics, shortcuts, and low-stock alerts
+- **Calculator**: Advanced jewelry pricing with multi-metal support and detailed breakdowns
+- **Inventory**: Full stock management with search, filter, and sorting capabilities
+- **Sales**: Create and track invoices, transactions, and customer orders
+- **CRM**: Manage customer profiles, loyalty status, and purchase history
+- **Dashboard**: Interactive charts showing revenue trends and business KPIs
+- **Assistant**: AI-powered business assistant leveraging Google Gemini for insights
+- **Settings**: Configuration for rates, themes, security, and user management
 
 ---
 
-## 🔑 Support and Help
+## 🧑‍💻 Development & Contributing
 
-For assistance, troubleshooting, or inquiries, review the following resources:
-- Create an issue on our GitHub issues page.
-- Direct documentation resources inside your local workspace.
-- Chat directly with your in-store assistant in **AurumLogix AI Assistant** view on the primary sidebar navigation.
+We welcome contributions from the community! Here's how to contribute:
+
+### Development Workflow
+
+1. **Fork the repository** on GitHub
+2. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-amazing-feature
+   ```
+3. **Make your changes** and ensure code quality:
+   ```bash
+   npm run dev    # Test your changes locally
+   npm run build  # Verify production build works
+   ```
+4. **Commit with clear messages**:
+   ```bash
+   git commit -m "feat: Add invoiceSharing feature"
+   git commit -m "fix: Resolve CRM filter bug"
+   ```
+5. **Push to your branch**:
+   ```bash
+   git push origin feature/your-amazing-feature
+   ```
+6. **Submit a Pull Request** with a clear description of your changes
+
+### Contribution Guidelines
+
+- Follow the existing code style and TypeScript conventions
+- Ensure all features are type-safe with proper TypeScript types
+- Test your changes in both development and production builds
+- Update documentation if adding new features
+- Keep commits focused and logical
+
+### Areas for Contribution
+
+- UI/UX improvements and accessibility enhancements
+- Performance optimization and bug fixes
+- New features and integrations
+- Documentation and examples
+- Test coverage improvements
+- Language/localization support
+
+---
+
+## � Support & Documentation
+
+### Getting Help
+
+- **GitHub Issues**: Found a bug or have a feature request? [Create an issue](https://github.com/YOUR_REPO_URL/issues)
+- **In-App Assistant**: Use the AI Assistant feature for real-time business advice and troubleshooting
+- **Documentation**: Check the workspace docs and code comments for detailed information
+- **Email Support**: Reach out to the maintenance team
+
+### Common Questions
+
+**Q: How do I get my Gemini API key?**  
+A: Visit [Google AI Studio](https://aistudio.google.com/app/apikey), sign in with your Google account, and create a new API key.
+
+**Q: Can I use this offline?**  
+A: Most features work offline. AI features (live rates, assistant) require internet connectivity.
+
+**Q: How do I export sales data?**  
+A: Currently, the app stores data in browser storage. Future versions will support data export to CSV/JSON.
+
+**Q: Is there a mobile app?**  
+A: The app is responsive and works well on mobile browsers. Native mobile apps may be added in future versions.
+
+---
+
+## 👥 Maintainers & Contributors
+
+**Original Developer**: [Your Name/Organization]  
+**Repository**: [GitHub Link]  
+**Project Status**: Active Development
+
+### How to Report Issues
+
+When reporting issues, please include:
+- Step-by-step reproduction instructions
+- Expected behavior vs. actual behavior
+- Browser and OS information
+- Screenshots or error messages if applicable
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Built with [React 19](https://react.dev/) and [Vite](https://vite.dev/)
+- Icons by [Lucide React](https://lucide.dev/)
+- AI powered by [Google Gemini](https://ai.google.dev/)
+- Styling with [Tailwind CSS](https://tailwindcss.com/)
+- Charts by [Recharts](https://recharts.org/)
+
+---
+
+**Happy coding! 🚀**
